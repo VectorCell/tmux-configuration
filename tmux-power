@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# this script is tailored specifically to my installation of elementary OS Luna on a Lenovo Yoga 13
+# this really needs to be reworked if used on another machine (probably)
+
+current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
+total_charge=$(cat /proc/acpi/battery/BAT1/info | grep 'last full capacity' | awk '{print $4}')
+
+echo -n " "
+percent=$(python -c  "print (100 * $current_charge) / $total_charge" | tr -d '\n')
+
+if [ $percent == 100 ]; then
+	echo -n "charged "
+else
+	echo -n "$percent% "
+	if [ "$(cat /proc/acpi/battery/BAT1/state | grep charging | awk '{print $3}')" == "charging" ]; then
+		echo -n "↑ "
+		acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
+		echo -n " "
+	else
+		if [ "$(cat /proc/acpi/battery/BAT1/state | grep charging | awk '{print $3}')" == "discharging" ]; then
+			echo -n "↓ "
+			acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
+			echo -n " "
+			python -c "print str(round($(cat /proc/acpi/battery/BAT1/state | grep 'present rate' | awk '{print $3}') / 1000.0, 1)) + 'W '"
+		else
+			echo -n "charged "
+		fi
+	fi
+fi

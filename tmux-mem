@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo -n " "
+
+MemTotal=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+MemFree=$(grep MemFree /proc/meminfo | awk '{print $2}')
+Cached=$(grep Cached /proc/meminfo | head -n 1 | awk '{print $2}')
+Buffers=$(grep Buffers /proc/meminfo | awk '{print $2}')
+Available=$(python -c  "print $MemFree + $Cached + $Buffers")
+Used=$(expr $MemTotal - $Available)
+
+python -c "print str(round($Used / 1024.0 / 1024.0, 1)) + \"G \" + str(100 * $Used / $MemTotal) + '% '" | tr -d '\n'
+
+SWAP_USED=$(top -b -n 1 | grep Swap | awk '{print $4}' | tr -d 'k\n')
+if [ "$SWAP_USED" != "0" ]; then
+	if [ "$SWAP_USED" -gt "$(python -c 'print 1024 * 1024')" ]; then
+		SWAP_USED=$(python -c "print round($SWAP_USED / 1024.0 / 1024.0, 1)")
+		echo -n "#[bold]${SWAP_USED}G swap#[nobold] "
+	else
+		if [ "$SWAP_USED" -gt "1024" ]; then
+			((SWAP_USED=SWAP_USED/1024))
+			if [ "$SWAP_USED" -gt "1024" ]; then
+				SWAP_USED=$(python -c "print round($SWAP_USED / 1024.0, 1")
+				echo -n "#[bold]${SWAP_USED}G swap#[nobold] "
+			else
+				echo -n "#[bold]${SWAP_USED}M swap#[nobold] "
+			fi
+		else
+			echo -n "#[bold]${SWAP_USED}k swap#[nobold] "
+		fi
+	fi
+fi

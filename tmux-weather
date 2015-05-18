@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo -n " "
+#weather | head -1 | awk '{for (i=2; i<=NF; i++) print $i}' | tr '\n' ' '
+weather | head -1 | cut -d' ' -f2- | tr -d '\n'
+echo -n " "
