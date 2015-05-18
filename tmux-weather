@@ -1,6 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
 
-echo -n " "
-#weather | head -1 | awk '{for (i=2; i<=NF; i++) print $i}' | tr '\n' ' '
-weather | head -1 | cut -d' ' -f2- | tr -d '\n'
-echo -n " "
+import urllib2
+import simplejson as json
+
+def ktof(temp):
+	return str(int(9 * (temp - 273) / 5 + 32)) + "°F"
+
+weather = json.loads(urllib2.urlopen("http://api.openweathermap.org/data/2.5/weather?q=Austin,TX").read())
+
+temp = ktof(weather["main"]["temp"])
+
+print(weather["name"] + " " + temp),
+
+desc = ""
+for cond in weather["weather"]:
+	desc += cond["description"] + " "
+if "thunder" in desc:
+	print "thunderstorms",
+elif "rain" in desc:
+	print "rain",
+elif "drizzle" in desc:
+	print "drizzle",
+elif "overcast" in desc:
+	print "overcast",
+else:
+	print desc.strip()
