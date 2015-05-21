@@ -36,7 +36,8 @@ else
 					df -h | grep "/$" | awk '{print $4}' | tr -d 'G\n'
 					echo -n " "
 				elif [ -n "$label" ]; then
-					echo -n "${label}-${free} "
+					echo "$label" | colrm 3 | tr -d '\n'
+					echo -n "-${free} "
 				else
 					echo -n "$free "
 				fi
