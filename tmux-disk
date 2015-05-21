@@ -3,9 +3,8 @@
 # this script needs a serious overhaul to be more generic to all systems
 # as of right now it works fine on Yogix
 
-echo -n " "
-
 if [ "$HOSTNAME" == "Yogix" ]; then
+	echo -n " "
 	df -h | grep sdb1 | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep sdb2 | awk '{print $4,""}' | tr -d 'G\n'
 	count=0
@@ -26,6 +25,20 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 		fi
 	done
 else
-	echo "disks "
+	echo -n " "
+	for letter in {a..z}; do
+		disk=$(ls /dev/sd$letter 2> /dev/null)
+		if [ -n "$disk" ]; then
+			df -h | grep $disk | while read line; do
+				label=$(echo $line | tr '/' '\n' | tail -n 1 | colrm 2)
+				free=$(echo $line | awk '{print $4}' | tr -d 'G')
+				if [ -n "$label" ]; then
+					echo -n "${label}-${free} "
+				else
+					echo -n "$free "
+				fi
+			done
+		fi
+	done
 fi
 

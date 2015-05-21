@@ -3,9 +3,8 @@
 # this script is tailored specifically to my installation of elementary OS Luna on a Lenovo Yoga 13
 # this really needs to be reworked if used on another machine (probably)
 
-echo -n " "
-
 if [ "$HOSTNAME" == "Yogix" ]; then
+	echo -n " "
 	current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
 	total_charge=$(cat /proc/acpi/battery/BAT1/info | grep 'last full capacity' | awk '{print $4}')
 	percent=$(python -c  "print (100 * $current_charge) / $total_charge" | tr -d '\n')
@@ -29,5 +28,5 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 		fi
 	fi
 else
-	echo " power "
+	echo ""
 fi
