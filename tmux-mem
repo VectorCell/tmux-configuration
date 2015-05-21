@@ -11,7 +11,7 @@ Used=$(expr $MemTotal - $Available)
 
 python -c "print str(round($Used / 1024.0 / 1024.0, 1)) + \"G \" + str(100 * $Used / $MemTotal) + '% '" | tr -d '\n'
 
-SWAP_USED=$(top -b -n 1 | grep Swap | awk '{print $4}' | tr -d 'k\n')
+SWAP_USED=$(top -b -n 1 | grep Swap | awk '{split($0,a,"total"); print a[2]}' | tr -d ',k' | awk '{print $1}')
 if [ "$SWAP_USED" != "0" ]; then
 	if [ "$SWAP_USED" -gt "$(python -c 'print 1024 * 1024')" ]; then
 		SWAP_USED=$(python -c "print round($SWAP_USED / 1024.0 / 1024.0, 1)")

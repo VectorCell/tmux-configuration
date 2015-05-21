@@ -4,9 +4,10 @@ echo -n " "
 
 # if there is a way to get the cpu temp in this machine, it should be returned
 # by a script named temp in the user's path
-if [ -n "$(which temp)" ]; then
-	temp | tr -d '\n'
-	echo -n " "
+if [ "$HOSTNAME" == "Yogix" ]; then
+	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
+	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
+	echo -n "${tempc}°C ${tempf}°F "
 fi
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')

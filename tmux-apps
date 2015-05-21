@@ -2,11 +2,10 @@
 
 # only machines that have spotify and music-control
 # (https://github.com/VectorCell/music-control)
-if [ -n "$(which sp)" ] && [ -n "$(which spotify)" ]; then
+if [ -n "$(which sp-current)" ] && [ -n "$(which spotify)" ]; then
 	if [ -n "$(top -b -n 1 | grep spotify)" ]; then
-		#echo -n " #[fg=colour10]$(sp-current) "
-		echo -n " #[fg=colour159]$(sp-current) "
+		echo -n "#[fg=colour159] $(sp-current) "
 	fi
 fi
 
-#echo -n "#[fg=colour159]$(tmux-weather)"
+#echo -n "#[fg=colour159] $(tmux-weather) "
