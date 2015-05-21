@@ -2,12 +2,14 @@
 
 echo -n " "
 
-# if there is a way to get the cpu temp in this machine, it should be returned
-# by a script named temp in the user's path
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C ${tempf}°F "
+elif [ "$HOSTNAME" == "Precisix" ]; then
+	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
+	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
+	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\""
 fi
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
