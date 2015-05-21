@@ -2,10 +2,15 @@
 
 echo -n " "
 
+exclude="nothing"
+if [ "$HOSTNAME" == "Precision390" ]; then
+	exclude="wlan0"
+fi
+
 eth0="?"
 wlan0="?"
 nrtap="?"
-for interface in $(ls /sys/class/net); do
+for interface in $(ls /sys/class/net | grep -v "$exclude"); do
 	if [ $interface == "eth0" ]; then
 		eth0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
 	fi
