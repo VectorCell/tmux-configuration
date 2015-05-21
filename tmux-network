@@ -13,6 +13,9 @@ nrtap="?"
 for interface in $(ls /sys/class/net | grep -v "$exclude"); do
 	if [ $interface == "eth0" ]; then
 		eth0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
+		if [ "$(echo $eth0 | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
+			eth0=$(echo $eth0 | tr '.' ' ' | awk '{print $4}')
+		fi
 	fi
 	if [ $interface == "wlan0" ]; then
 		wlan0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
