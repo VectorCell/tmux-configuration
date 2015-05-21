@@ -33,7 +33,7 @@ else
 				label=$(echo $line | tr '/' '\n' | tail -n 1)
 				free=$(echo $line | awk '{print $4}' | tr -d 'G')
 				if [ "$label" == "boot" ]; then
-					df -h | grep "/$" | awk '{print $4}' | tr -d '\n'
+					df -h | grep "/$" | awk '{print $4}' | tr -d 'G\n'
 					echo -n " "
 				elif [ -n "$label" ]; then
 					echo -n "${label}-${free} "
