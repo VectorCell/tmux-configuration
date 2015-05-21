@@ -16,7 +16,7 @@ for interface in $(ls /sys/class/net | grep -v "$exclude"); do
 	fi
 	if [ $interface == "wlan0" ]; then
 		wlan0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
-		if [ "$(echo $wlan0 | tr '.' ' ' | awk '{print $1,$2,$3}')" == "192 168 0" ]; then
+		if [ "$(echo $wlan0 | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
 			wlan0=$(echo $wlan0 | tr '.' ' ' | awk '{print $4}')
 		fi
 		if [ -z "$wlan0" ]; then
