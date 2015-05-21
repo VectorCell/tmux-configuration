@@ -30,7 +30,7 @@ else
 		disk=$(ls /dev/sd$letter 2> /dev/null)
 		if [ -n "$disk" ]; then
 			df -h | grep $disk | while read line; do
-				label=$(echo $line | tr '/' '\n' | tail -n 1 | colrm 2)
+				label=$(echo $line | tr '/' '\n' | tail -n 1)
 				free=$(echo $line | awk '{print $4}' | tr -d 'G')
 				if [ -n "$label" ]; then
 					echo -n "${label}-${free} "
