@@ -9,7 +9,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 elif [ "$HOSTNAME" == "Precision390" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
-	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\","
+	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
 fi
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
