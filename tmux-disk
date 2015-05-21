@@ -32,11 +32,11 @@ else
 			df -h | grep $disk | while read line; do
 				label=$(echo $line | tr '/' '\n' | tail -n 1)
 				free=$(echo $line | awk '{print $4}' | tr -d 'G')
-				if [ -n "$label" ]; then
-					echo -n "${label}-${free} "
-				elif [ "$label" == "boot" ]; then
+				if [ "$label" == "boot" ]; then
 					df -h | grep "/$" | awk '{print $4}' | tr -d '\n'
 					echo -n " "
+				elif [ -n "$label" ]; then
+					echo -n "${label}-${free} "
 				else
 					echo -n "$free "
 				fi
