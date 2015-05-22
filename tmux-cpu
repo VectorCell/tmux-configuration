@@ -14,7 +14,7 @@ elif [ "$HOSTNAME" == "Precision390" ]; then
 elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	echo "${tempc}°C ${tempf}°F"
+	echo -n "${tempc}°C ${tempf}°F "
 fi
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
