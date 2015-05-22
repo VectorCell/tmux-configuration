@@ -17,8 +17,8 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 	echo -n "${tempc}°C ${tempf}°F "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	# probably a raspberry pi
-	# also in /sys/class/thermal/thermal_zone0/temp
-	tempc=$(/opt/vc/bin/vcgencmd measure_temp | colrm 1 5 | rev | colrm 1 2 | rev)
+	tempmc=$(cat /sys/class/thermal/thermal_zone0/temp)
+	tempc=$(python -c "print round($tempc / 1000.0, 1)")
 	echo -n " ${tempc}°C "
 fi
 
