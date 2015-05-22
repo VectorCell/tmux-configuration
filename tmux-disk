@@ -27,7 +27,22 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	echo -n " "
 	df -h | grep "/$" | head -n 1 | awk '{print $4}' | tr -d 'G\n'
-	echo -n " to-do "
+	for letter in {a..z}; do
+		disk=$(ls /dev/sd$letter 2> /dev/null)
+		if [ -n "$disk" ]; then
+			df -h | grep $disk | while read line; do
+				>&2 echo "checking $disk"
+				label=$(echo $line | tr '/' '\n' | tail -n 1)
+				free=$(echo $line | awk '{print $4}' | tr -d 'G')
+				if [ -n "$label" ]; then
+					echo "$label" | colrm 3 | tr -d '\n'
+					echo -n "-${free} "
+				else
+					echo -n "$free "
+				fi
+			done
+		fi
+	done
 else
 	echo -n " "
 	for letter in {a..z}; do
