@@ -8,4 +8,13 @@ if [ -n "$(which sp-current)" ] && [ -n "$(which spotify)" ]; then
 	fi
 fi
 
+# for ENIAC, who controls the relays for Precisix
+if [ "$HOSTNAME" == "ENIAC" ]; then
+	echo -n " relays:"
+	for i in {23..24}; do
+		sudo gpio read $i | tr -d '\n'
+	done
+	echo -n " "
+fi
+
 #echo -n "#[fg=colour159] $(tmux-weather) "
