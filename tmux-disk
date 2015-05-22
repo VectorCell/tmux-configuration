@@ -27,6 +27,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	echo -n " "
 	df -h | grep "/$" | head -n 1 | awk '{print $4}' | tr -d 'G\n'
+	echo -n " "
 	for letter in {a..z}; do
 		disk=$(ls /dev/sd$letter 2> /dev/null)
 		if [ -n "$disk" ]; then
