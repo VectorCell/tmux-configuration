@@ -14,7 +14,7 @@ elif [ "$HOSTNAME" == "Precision390" ]; then
 elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	echo -n "${tempc}°C ${tempf}°F "
+	echo -n "${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
