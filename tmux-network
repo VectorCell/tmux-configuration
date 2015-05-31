@@ -2,41 +2,27 @@
 
 echo -n " "
 
-exclude="nothing"
+exclude="lo"
 if [ "$HOSTNAME" == "Precision390" ]; then
-	exclude="wlan0"
+	# for some reason this machine is convinced it has a wireless adapter
+	exclude="lo|wlan0"
 fi
 
-eth0="?"
-wlan0="?"
-nrtap="?"
 for interface in $(ls /sys/class/net | grep -v "$exclude"); do
-	if [ $interface == "eth0" ]; then
-		eth0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
-		if [ "$(echo $eth0 | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
-			eth0=$(echo $eth0 | tr '.' ' ' | awk '{print $4}')
-		fi
-	fi
-	if [ $interface == "wlan0" ]; then
-		wlan0=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
-		if [ "$(echo $wlan0 | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
-			wlan0=$(echo $wlan0 | tr '.' ' ' | awk '{print $4}')
-		fi
-		if [ -z "$wlan0" ]; then
-			echo "not connected "
-		fi
-	fi
-	if [ $interface == "nrtap" ]; then
-		nrtap=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}' | colrm 1 7)
-	fi
-done
+	address=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
 
-if [ "$eth0" != "?" ]; then
-	echo -n "e$eth0 "
-fi
-if [ "$wlan0" != "?" ]; then
-	echo -n "w$wlan0 "
-fi
-if [ "$nrtap" != "?" ]; then
-	echo -n "n$nrtap "
-fi
+	if [ -z "$address" ]; then
+		address="?"
+	elif [ "$(echo $interface | colrm 4)" == "eth" ] || [ "$(echo $interface | colrm 5)" == "wlan" ]; then
+		if [ "$(echo $address | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
+			address=$(echo $address | tr '.' ' ' | awk '{print $4}')
+		fi
+	elif [ "$(echo $interface | colrm 8)" == "vboxnet" ]; then
+		address=$(echo $address | tr '.' ' ' | awk '{print $4}')
+	elif [ $interface == "nrtap" ]; then
+		address=$(echo $address | tr '.' ' ' | awk '{print $4}')
+	fi
+
+	echo -n $(echo $interface | colrm 2)
+	echo -n "$address "
+done
