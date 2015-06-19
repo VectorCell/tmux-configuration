@@ -11,7 +11,7 @@ fi
 # for ENIAC, who controls the relays for Precisix
 if [ "$HOSTNAME" == "PiOne" ]; then
 	echo -n " relays:"
-	for i in {23..24}; do
+	for i in {12..13}; do
 		sudo gpio read $i | tr -d '\n'
 	done
 	echo -n " "
