@@ -9,7 +9,7 @@ if [ -n "$(which sp-current)" ] && [ -n "$(which spotify)" ]; then
 fi
 
 # for ENIAC, who controls the relays for Precisix
-if [ "$HOSTNAME" == "ENIAC" ]; then
+if [ "$HOSTNAME" == "PiOne" ]; then
 	echo -n " relays:"
 	for i in {23..24}; do
 		sudo gpio read $i | tr -d '\n'
