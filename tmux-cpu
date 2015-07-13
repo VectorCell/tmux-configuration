@@ -15,7 +15,7 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C "
-elif [ "$HOSTNAME" == "nuc" ]; then
+elif [ "$HOSTNAME" == "lotus" ]; then
 	temp0=$(acpi -t | awk '{print $4}' | head -n 1)
 	temp1=$(acpi -t | awk '{print $4}' | tail -n 1)
 	tempc=$(python -c "print ($temp0 + $temp1) / 2")
