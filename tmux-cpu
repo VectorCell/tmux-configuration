@@ -6,7 +6,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C ${tempf}°F "
-elif [ "$HOSTNAME" == "Precision390" ]; then
+elif [ "$HOSTNAME" == "Precision390" ] || [ "$HOSTNAME" == "lotus" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
 	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
@@ -14,11 +14,6 @@ elif [ "$HOSTNAME" == "Precision390" ]; then
 elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	echo -n "${tempc}°C "
-elif [ "$HOSTNAME" == "lotus" ]; then
-	temp0=$(acpi -t | awk '{print $4}' | head -n 1)
-	temp1=$(acpi -t | awk '{print $4}' | tail -n 1)
-	tempc=$(python -c "print ($temp0 + $temp1) / 2")
 	echo -n "${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	# probably a raspberry pi
