@@ -36,4 +36,5 @@ for file in $(ls | grep "tmux-"); do
 	ln -s $DIR/$file $HOME/bin/$file
 done
 
+tmux source-file ~/.tmux.conf
 tmux refresh-client -S
