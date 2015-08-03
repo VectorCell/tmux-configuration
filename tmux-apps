@@ -8,7 +8,7 @@ if [ -n "$(which sp-current)" ] && [ -n "$(which spotify)" ]; then
 	fi
 fi
 
-# for ENIAC, who controls the relays for Precisix
+# for PiOne, who controls the relays
 if [ "$HOSTNAME" == "PiOne" ]; then
 	echo -n " relays:"
 	for i in {12..13}; do
