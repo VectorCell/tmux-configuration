@@ -11,7 +11,7 @@ fi
 # for PiOne, who controls the relays
 if [ "$HOSTNAME" == "PiOne" ]; then
 	echo -n " relays:"
-	relays | head -n 1 | tr -d '\n'
+	relays state | head -n 1 | tr -d '\n'
 	echo -n " "
 fi
 
