@@ -10,9 +10,7 @@ fi
 
 # for PiOne, who controls the relays
 if [ "$HOSTNAME" == "PiOne" ]; then
-	echo -n " relays:"
-	relays state | head -n 1 | tr -d '\n'
-	echo -n " "
+	relays status | grep " on " | awk '{print $1}' | tr '\n' ' '
 fi
 
 #echo -n "#[fg=colour159] $(tmux-weather) "
