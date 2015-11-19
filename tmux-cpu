@@ -4,8 +4,9 @@ echo -n " "
 
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
-	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	echo -n "${tempc}°C ${tempf}°F "
+	#tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
+	#echo -n "${tempc}°C ${tempf}°F "
+	echo -n "${tempc}°C "
 elif [ "$HOSTNAME" == "Precision390" ] || [ "$HOSTNAME" == "lotus" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
@@ -15,7 +16,7 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C "
-elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
+elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
 	echo -n "${tempc}°C "
