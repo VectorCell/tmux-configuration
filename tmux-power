@@ -3,6 +3,8 @@
 # this script is tailored specifically to my installation of elementary OS Luna on a Lenovo Yoga 13
 # this really needs to be reworked if used on another machine (probably)
 
+percent=100
+
 if [ "$HOSTNAME" == "Yogix" ]; then
 	echo -n " "
 	current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
@@ -28,14 +30,39 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 		fi
 	fi
 
-	# low battery warning
-	if [ $percent -lt 20 ]; then
-		echo -n "#[fg=black,bg=colour48] LOW BATTERY #[fg=white,bg=colour235] "
-	elif [ $percent -lt 6 ]; then
-		echo -n "#[fg=white,bg=red] CRITIAL BATTERY #[fg=white,bg=colour235] "
+elif [ "$HOSTNAME" == "Precisix" ]; then
+	echo -n " "
+	STATE=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}')
+	if [ "$STATE" == "fully-charged" ]; then
+		echo " $STATE "
+	else
+		percent=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | awk '{print $2}' | tr -d '%')
+		echo -n "${percent}% "
+		if [ "$STATE" == "discharging" ]; then
+			echo -n "↓ "
+			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to empty" | awk '{print $4}')
+		elif [ "$STATE" == "charging" ]; then
+			echo -n "↑ "
+			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to full" | awk '{print $4}')
+		else
+			echo -n "STATE: $STATE "
+		fi
+		echo -n "$timeleft "
+		rate=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep energy-rate | awk '{print $2}')
+		rate=$(python -c "print round($rate, 1)")
+		echo -n "${rate}W "
 	fi
-
 else
 	echo ""
+	exit
+fi
+
+
+
+# low battery warning
+if [ $percent -lt 20 ]; then
+	echo -n "#[fg=black,bg=colour48] LOW BATTERY #[fg=white,bg=colour235] "
+elif [ $percent -lt 6 ]; then
+	echo -n "#[fg=white,bg=red] CRITIAL BATTERY #[fg=white,bg=colour235] "
 fi
 
