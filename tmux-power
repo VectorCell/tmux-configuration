@@ -90,7 +90,5 @@ if [ $percent -lt 20 ]; then
 	echo -n "#[fg=black,bg=colour48] LOW BATTERY #[fg=white,bg=colour235] "
 elif [ $percent -lt 6 ]; then
 	echo -n "#[fg=white,bg=red] CRITIAL BATTERY #[fg=white,bg=colour235] "
-else
-	echo -n "#[fg=white,bg=red] GOOD BATTERY #[fg=white,bg=colour235] "
 fi
 
