@@ -23,7 +23,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 				echo -n "↓ "
 				acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
 				echo -n " "
-				python -c "print str(round($(cat /proc/acpi/battery/BAT1/state | grep 'present rate' | awk '{print $3}') / 1000.0, 1)) + 'W '"
+				python -c "print str(round($(cat /proc/acpi/battery/BAT1/state | grep 'present rate' | awk '{print $3}') / 1000.0, 1)) + 'W '" | tr -d '\n'
 			else
 				echo -n "charged "
 			fi
@@ -90,5 +90,7 @@ if [ $percent -lt 20 ]; then
 	echo -n "#[fg=black,bg=colour48] LOW BATTERY #[fg=white,bg=colour235] "
 elif [ $percent -lt 6 ]; then
 	echo -n "#[fg=white,bg=red] CRITIAL BATTERY #[fg=white,bg=colour235] "
+else
+	echo -n "#[fg=white,bg=red] GOOD BATTERY #[fg=white,bg=colour235] "
 fi
 
