@@ -18,6 +18,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 			echo -n "↑ "
 			acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
 			echo -n " "
+			percent=100 # to avoid low/critial battery message
 		else
 			if [ "$(cat /proc/acpi/battery/BAT1/state | grep charging | awk '{print $3}')" == "discharging" ]; then
 				echo -n "↓ "
@@ -44,6 +45,7 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 		elif [ "$STATE" == "charging" ]; then
 			echo -n "↑ "
 			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to full" | awk '{print $4}')
+			percent=100 # to avoid low/critial battery message
 		else
 			echo -n "STATE: $STATE "
 		fi
