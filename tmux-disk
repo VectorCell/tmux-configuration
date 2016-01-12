@@ -26,8 +26,10 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 	done
 elif [ "$HOSTNAME" == "lotus" ]; then
 	echo -n " "
-	df -h | grep sdb1 | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep sda1 | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep hdd$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep BETA$ | awk '{print $4,""}' | tr -d 'G\n'
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
 	echo -n " "
 	df -h | grep "/$" | head -n 1 | awk '{print $4}' | tr -d 'G\n'
