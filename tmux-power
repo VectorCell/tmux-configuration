@@ -6,32 +6,32 @@
 percent=100
 
 if [ "$HOSTNAME" == "Yogix" ]; then
+
 	echo -n " "
-	current_charge=$(cat /proc/acpi/battery/BAT1/state | grep 'remaining capacity' | awk '{print $3}')
-	total_charge=$(cat /proc/acpi/battery/BAT1/info | grep 'last full capacity' | awk '{print $4}')
-	percent=$(python -c  "print (100 * $current_charge) / $total_charge" | tr -d '\n')
-	if [ $percent == 100 ]; then
-		echo -n "charged "
+	STATE=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep state | awk '{print $2}')
+	if [ "$STATE" == "fully-charged" ]; then
+		echo "$STATE "
 	else
-		echo -n "$percent% "
-		if [ "$(cat /proc/acpi/battery/BAT1/state | grep charging | awk '{print $3}')" == "charging" ]; then
+		percent=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep percentage | awk '{print $2}' | tr -d '%')
+		echo -n "${percent}% "
+		if [ "$STATE" == "discharging" ]; then
+			echo -n "↓ "
+			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep "time to empty" | awk '{print $4}')
+		elif [ "$STATE" == "charging" ]; then
 			echo -n "↑ "
-			acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
-			echo -n " "
+			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep "time to full" | awk '{print $4}')
 			percent=100 # to avoid low/critial battery message
 		else
-			if [ "$(cat /proc/acpi/battery/BAT1/state | grep charging | awk '{print $3}')" == "discharging" ]; then
-				echo -n "↓ "
-				acpi -b | awk '{print $5}' | tr ':' ' ' | awk '{print $1,$2}' | tr ' ' ':' | tr -d '\n'
-				echo -n " "
-				python -c "print str(round($(cat /proc/acpi/battery/BAT1/state | grep 'present rate' | awk '{print $3}') / 1000.0, 1)) + 'W '" | tr -d '\n'
-			else
-				echo -n "charged "
-			fi
+			echo -n "STATE: $STATE "
 		fi
+		echo -n "$timeleft "
+		rate=$(upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep energy-rate | awk '{print $2}')
+		rate=$(python -c "print round($rate, 1)")
+		echo -n "${rate}W "
 	fi
 
 elif [ "$HOSTNAME" == "Precisix" ]; then
+
 	echo -n " "
 	STATE=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}')
 	if [ "$STATE" == "fully-charged" ]; then
@@ -54,7 +54,9 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 		rate=$(python -c "print round($rate, 1)")
 		echo -n "${rate}W "
 	fi
+
 elif [ "$HOSTNAME" == "lifebook-s" ]; then
+
 	echo -n " "
 	STATE=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep state | awk '{print $2}')
 	if [ "$STATE" == "fully-charged" ]; then
@@ -80,6 +82,7 @@ elif [ "$HOSTNAME" == "lifebook-s" ]; then
 			echo -n "${rate}W "
 		fi
 	fi
+	
 else
 	echo ""
 	exit
