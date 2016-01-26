@@ -8,21 +8,11 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 	df -h | grep sdb1 | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep sdb2 | awk '{print $4,""}' | tr -d 'G\n'
 	count=0
-	df -h | while read line; do
-		((count=count+1))
-		if [ $count -gt 6 ]; then
-			if [ -z "$(echo $line | grep sdb)" ]; then
-				#label=$(echo $line | awk '{print $6}' | rev | tr '/' ' ' | awk '{print $1}' | rev | tr -d '\n')
-				label=$(echo $line | awk '{print $6}' | rev | tr '/' ' ' | awk '{print $1}' | rev | colrm 2 | tr -d '\n')
-				free=$(echo $line | awk '{print $4}' | tr -d 'G\n')
-				if [ "$label" != "utcs" ]; then
-					printf "${label}-${free} "
-				else
-					printf "${label}-"
-					ssh mars.cs.utexas.edu "chkquota" | tail -n 1 | awk '{print $5,""}'
-				fi
-			fi
-		fi
+	df -h | grep "/media/$(whoami)" | while read line; do
+		echo "$line" | tr '/' ' ' | rev | awk '{print $1}' | rev | tr -d '\n'
+		echo -n "-"
+		echo "$line" | awk '{print $4}' | tr -d 'G\n'
+		echo -n " "
 	done
 elif [ "$HOSTNAME" == "lotus" ]; then
 	echo -n " "
