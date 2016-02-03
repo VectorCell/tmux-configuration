@@ -17,7 +17,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 elif [ "$HOSTNAME" == "lotus" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep hdd$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep ssd$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep BETA$ | awk '{print $4,""}' | tr -d 'G\n'
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ]; then
