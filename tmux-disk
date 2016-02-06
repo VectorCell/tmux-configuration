@@ -20,7 +20,7 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 	df -h | grep ssd$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep BETA$ | awk '{print $4,""}' | tr -d 'G\n'
-elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ] || ; then
+elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
 	echo -n " "
 	df -h | grep "/$" | head -n 1 | awk '{print $4}' | tr -d 'G\n'
 	echo -n " "
