@@ -45,7 +45,7 @@ else
 	# for other systems, just show information for root partition
 
 	echo -n " "
-	free=$(df -h | grep /$ | awk '{print $4}')
+	free=$(df -h | grep /$ | awk '{print $4}' | tr -d 'G')
 	echo -n "$free "
 fi
 
