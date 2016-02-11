@@ -13,4 +13,8 @@ if [ "$HOSTNAME" == "PiOne" ]; then
 	relays status | grep " on " | awk '{print $1}' | tr '\n' ' '
 fi
 
+if [ -n "$(top -b -n 1 | grep vnc)" ]; then
+	echo -n "#[fg=white] VNC "
+fi
+
 #echo -n "#[fg=colour159] $(tmux-weather) "
