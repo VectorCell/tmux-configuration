@@ -2,10 +2,9 @@
 
 echo -n " "
 
+# cpu temperature, there's probably a cleaner, more universal way to do this
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
-	#tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	#echo -n "${tempc}°C ${tempf}°F "
 	echo -n "${tempc}°C "
 elif [ "$HOSTNAME" == "leander" ] || [ "$HOSTNAME" == "lotus" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
@@ -16,11 +15,24 @@ elif [ "$HOSTNAME" == "Precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C "
+elif [ "$HOSTNAME" == "Green" ]; then
+	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
+	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
+	echo -n "${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
 	echo -n "${tempc}°C "
 fi
+
+#mhz=$(lscpu | grep MHz | awk '{print $3}')
+#mhz=$(python -c "print int(round($mhz))")
+#if [ "$mhz" -gt "1000" ]; then
+#	ghz=$(python -c "print round($mhz / 1000.0, 1)")
+#	echo -n "${ghz}GHz "
+#else
+#	echo -n "${mhz}MHz "
+#fi
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
 echo -n "$loadavg "
