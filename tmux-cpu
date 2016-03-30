@@ -7,7 +7,7 @@ if [ "$HOSTNAME" == "Yogix" ]; then
 	#tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	#echo -n "${tempc}°C ${tempf}°F "
 	echo -n "${tempc}°C "
-elif [ "$HOSTNAME" == "Precision390" ] || [ "$HOSTNAME" == "lotus" ]; then
+elif [ "$HOSTNAME" == "leander" ] || [ "$HOSTNAME" == "lotus" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
 	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
