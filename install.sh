@@ -24,8 +24,22 @@ if [ -e "$HOME/.tmux.conf" ]; then
 	echo -e "\nremoving $HOME/.tmux.conf"
 	rm "$HOME/.tmux.conf"
 fi
-echo -e "linking $HOME/.tmux.conf to $DIR/tmux.conf"
-ln -s $DIR/tmux.conf $HOME/.tmux.conf
+
+version=$(tmux -V | tr '.' ' ' | awk '{print $2}')
+
+if [ "$version" == 1 ]; then
+	echo "Installing configuration for tmux version 1"
+	sourcefile=tmux.conf
+elif [ "$version" == 2 ]; then
+	echo "Installing configuration for tmux version 2"
+	sourcefile=tmux2.conf
+else
+	echo "ERROR: unknown tmux version: $(tmux -V)"
+	exit 1
+fi
+
+echo -e "linking $HOME/.tmux.conf to $DIR/$sourcefile"
+ln -s $DIR/$sourcefile $HOME/.tmux.conf
 for file in $(ls | grep "tmux-"); do
 	if [ -e "$HOME/bin/$file" ]; then
 
