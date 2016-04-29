@@ -17,6 +17,6 @@ if [ -n "$(top -b -n 1 | grep vnc)" ]; then
 	echo -n "#[fg=white] VNC "
 fi
 
-if [ $HOSTNAME == Green ] || [ $HOSTNAME == Precisix ] || [ $HOSTNAME == Yogix ]; then
-	echo -n "#[fg=colour159]$(tmux-weather)"
-fi
+#if [ $HOSTNAME == Green ] || [ $HOSTNAME == Precisix ] || [ $HOSTNAME == Yogix ]; then
+#	echo -n "#[fg=colour159]$(tmux-weather)"
+#fi
