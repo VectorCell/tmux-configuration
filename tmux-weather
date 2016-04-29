@@ -1,28 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: latin-1 -*-
+#!/bin/bash
 
-import urllib2
-import simplejson as json
+URL='http://forecast.weather.gov/MapClick.php?lat=30.349290869878814&lon=-97.77015612070767'
 
-def ktof(temp):
-	return str(int(9 * (temp - 273) / 5 + 32)) + "°F"
+WEATHER="$(curl -m 2 $URL 2> /dev/null)"
 
-weather = json.loads(urllib2.urlopen("http://api.openweathermap.org/data/2.5/weather?q=Austin,TX").read())
-
-temp = ktof(weather["main"]["temp"])
-
-print(weather["name"] + " " + temp),
-
-desc = ""
-for cond in weather["weather"]:
-	desc += cond["description"] + " "
-if "thunder" in desc:
-	print "thunderstorms",
-elif "rain" in desc:
-	print "rain",
-elif "drizzle" in desc:
-	print "drizzle",
-elif "overcast" in desc:
-	print "overcast",
-else:
-	print desc.strip()
+echo -n " "
+echo "$WEATHER" | grep myforecast-current | grep -v myforecast-current-sm | sed 's/&deg;/°/g' | tr '<>' '  ' | awk '{print $3}' | tr '\n' ' '
