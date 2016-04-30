@@ -20,6 +20,18 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 	df -h | grep ssd$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep BETA$ | awk '{print $4,""}' | tr -d 'G\n'
+elif [ "$HOSTNAME" == "Green" ]; then
+	echo -n " "
+	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
+
+	df -hT | grep zfs | awk '{print $1,$4}' | tr '\n' ' '
+
+	echo -n "ALPHA "
+	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
+
+	echo -n "Passport "
+	df -h | grep Passport$ | awk '{print $4,""}' | tr -d 'G\n'
+
 elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
 	echo -n " "
 	df -h | grep "/$" | head -n 1 | awk '{print $4}' | tr -d 'G\n'
@@ -43,9 +55,12 @@ elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
 else
 
 	# for other systems, just show information for root partition
+	# and zfs pools
 
 	echo -n " "
 	free=$(df -h | grep /$ | awk '{print $4}' | tr -d 'G')
 	echo -n "$free "
+
+	df -hT | grep zfs | awk '{print $1,$4}' | tr '\n' ' '
 fi
 
