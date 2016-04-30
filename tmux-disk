@@ -24,7 +24,7 @@ elif [ "$HOSTNAME" == "Green" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 
-	df -hT | grep zfs | awk '{print $1,$4}' | tr '\n' ' '
+	df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G'
 
 	echo -n "ALPHA "
 	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
@@ -61,6 +61,6 @@ else
 	free=$(df -h | grep /$ | awk '{print $4}' | tr -d 'G')
 	echo -n "$free "
 
-	df -hT | grep zfs | awk '{print $1,$4}' | tr '\n' ' '
+	df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G'
 fi
 
