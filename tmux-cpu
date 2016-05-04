@@ -3,6 +3,7 @@
 echo -n " "
 
 # cpu temperature, there's probably a cleaner, more universal way to do this
+# at least I hope so
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
 	echo -n "${tempc}°C "
@@ -33,6 +34,8 @@ fi
 #else
 #	echo -n "${mhz}MHz "
 #fi
+
+exit 0
 
 loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
 echo -n "$loadavg "

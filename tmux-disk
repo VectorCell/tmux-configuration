@@ -22,15 +22,16 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 	df -h | grep BETA$ | awk '{print $4,""}' | tr -d 'G\n'
 elif [ "$HOSTNAME" == "Green" ]; then
 	echo -n " "
-	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 
-	df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G'
+	lsblk | awk '{print $7}' | while read mountpoint; do
+		if [ -n "$mountpoint" ]; then
+			#echo "$mountpoint "
+			df -hT $mountpoint 2> /dev/null | tail -n 1 | awk '{print $5,""}' | tr -d 'G\n'
+		fi
+	done
+	df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
 
-	echo -n "ALPHA "
-	df -h | grep ALPHA$ | awk '{print $4,""}' | tr -d 'G\n'
-
-	echo -n "Passport "
-	df -h | grep Passport$ | awk '{print $4,""}' | tr -d 'G\n'
+	#sudo hddtemp /dev/sd{a..z} 2> /dev/null | grep C$ | rev | awk '{print "",$1}' | rev | tr -d '\n'
 
 elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
 	echo -n " "
