@@ -34,7 +34,10 @@ elif [ "$HOSTNAME" == "Green" ]; then
 	df -h / | grep /$ | awk '{print $4,""}' | tr -d "G\n"
 	df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
 
-	#sudo hddtemp /dev/sd{a..z} 2> /dev/null | grep C$ | rev | awk '{print "",$1}' | rev | tr -d '\n'
+#	ls /dev/disk/by-id | grep -v part | grep ata-WDC_WD40EFRX | while read diskid; do
+#		sudo hddtemp /dev/disk/by-id/$diskid | rev | awk '{print $1}' | rev | tr -d '\n'
+#		echo -n " "
+#	done
 
 elif [ "$HOSTNAME" == "leander" ]; then
 	echo -n " "
