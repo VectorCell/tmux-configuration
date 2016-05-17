@@ -13,7 +13,7 @@ for interface in $(ls /sys/class/net | grep -v -E "$exclude"); do
 
 	if [ -z "$address" ]; then
 		address="?"
-	elif [ "$(echo $interface | colrm 4)" == "eth" ] || [ "$(echo $interface | colrm 5)" == "wlan" ]; then
+	elif [ "$(echo $interface | colrm 2)" == "e" ] || [ "$(echo $interface | colrm 2)" == "w" ]; then
 		if [ "$(echo $address | tr '.' ' ' | awk '{print $1,$2}')" == "192 168" ]; then
 			address=$(echo $address | tr '.' ' ' | awk '{print $4}')
 		fi
