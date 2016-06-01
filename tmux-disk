@@ -39,6 +39,11 @@ elif [ "$HOSTNAME" == "Green" ]; then
 #		echo -n " "
 #	done
 
+#	sudo hddtemp $(sudo blkid | grep ALPHA | colrm 9) | rev | colrm 1 2 | awk '{print $1}' | rev | tr '\n' ' '
+#	sudo blkid | grep store | colrm 9 | while read line; do
+#		sudo hddtemp $line | rev | colrm 1 2 | awk '{print $1}' | rev | tr '\n' ' '
+#	done
+
 elif [ "$HOSTNAME" == "leander" ]; then
 	echo -n " "
 
