@@ -5,4 +5,6 @@ URL='http://forecast.weather.gov/MapClick.php?lat=30.349290869878814&lon=-97.770
 WEATHER="$(curl -m 2 $URL 2> /dev/null)"
 
 echo -n " "
-echo "$WEATHER" | grep myforecast-current | grep -v myforecast-current-sm | sed 's/&deg;/°/g' | tr '<>' '  ' | awk '{print $3}' | tr '\n' ' '
+#echo "$WEATHER" | grep myforecast-current | grep -v myforecast-current-sm | sed 's/&deg;/°/g' | tr '<>' '  ' | awk '{print $3}' | tr '\n' ' '
+echo "$WEATHER" | grep myforecast-current | grep -v myforecast-current-sm \
+	| sed 's/&deg;/°/g' | tr '<>' '\n\n' | grep -vE "^[[:space:]]*$|^p|^/p" | tr '\n' ' '
