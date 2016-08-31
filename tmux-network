@@ -2,10 +2,10 @@
 
 echo -n " "
 
-exclude="lo"
+exclude="lo|docker0"
 if [ "$HOSTNAME" == "Precision390" ]; then
 	# for some reason this machine is convinced it has a wireless adapter
-	exclude="lo|wlan0"
+	exclude="${exclude}|wlan0"
 fi
 
 for interface in $(ls /sys/class/net | grep -v -E "$exclude"); do
