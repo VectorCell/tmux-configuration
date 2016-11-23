@@ -7,7 +7,9 @@ echo -n " "
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
 	echo -n "${tempc}°C "
-elif [ "$HOSTNAME" == "leander" ] || [ "$HOSTNAME" == "lotus" ]; then
+elif [ "$HOSTNAME" == "leander" ]; then
+	echo -n "TODO: fix "
+elif [ "$HOSTNAME" == "lotus" ]; then
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
 	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
