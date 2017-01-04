@@ -14,7 +14,7 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
 	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
 	echo -n " "
-elif [ "$HOSTNAME" == "Precisix" ]; then
+elif [ "$HOSTNAME" == "precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
 	echo -n "${tempc}°C "
