@@ -8,8 +8,8 @@ if [ -n "$(which sp-current)" ] && [ -n "$(which spotify)" ]; then
 	fi
 fi
 
-# for PiOne, who controls the relays
-if [ "$HOSTNAME" == "PiOne" ]; then
+# for eniac, which controls the relays
+if [ "$HOSTNAME" == "eniac" ]; then
 	relays status | grep " on " | awk '{print $1}' | tr '\n' ' '
 fi
 
