@@ -28,6 +28,10 @@ elif [ "$HOSTNAME" == "tank" ]; then
 	temp=$(sensors | grep Physical | awk '{print $4}' | tr -d '+°C')
 	tempc=$(python -c "print int(round($temp))")
 	echo -n "${tempc}°C "
+elif [ "$HOSTNAME" == "nissan" ]; then
+	temp=$(sensors | grep Physical | awk '{print $4}' | tr -d '+°C')
+	tempc=$(python -c "print int(round($temp))")
+	echo -n "${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
