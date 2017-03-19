@@ -10,8 +10,8 @@ fi
 
 # for eniac, which controls the relays
 if [ "$HOSTNAME" == "eniac" ]; then
-	#relays status | grep " on " | awk '{print $1}' | colrm 4 | tr '\n' ' '
-	relays state | tr '\n' ' '
+	mcp9808_c | ctof -r | tr -d '\n'
+	echo -n "°F "
 fi
 
 if [ -n "$(top -b -n 1 | grep vnc)" ]; then
