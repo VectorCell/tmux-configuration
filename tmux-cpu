@@ -29,7 +29,7 @@ elif [ "$HOSTNAME" == "tank" ]; then
 	tempc=$(python -c "print int(round($temp))")
 	echo -n "${tempc}°C "
 elif [ "$HOSTNAME" == "nissan" ]; then
-	temp=$(sensors | grep Physical | awk '{print $4}' | tr -d '+°C')
+	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
 	tempc=$(python -c "print int(round($temp))")
 	echo -n "${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
