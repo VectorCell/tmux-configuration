@@ -35,7 +35,7 @@ elif [ "$HOSTNAME" == "Green" ]; then
 #	done
 
 	df -h / | grep /$ | awk '{print $4,""}' | tr -d "G\n"
-	df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
+	#df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
 
 #	ls /dev/disk/by-id | grep -v part | grep ata-WDC_WD40EFRX | while read diskid; do
 #		sudo hddtemp /dev/disk/by-id/$diskid | rev | awk '{print $1}' | rev | tr -d '\n'
@@ -56,7 +56,7 @@ elif [ "$HOSTNAME" == "leander" ]; then
 			df -hT $mountpoint 2> /dev/null | tail -n 1 | awk '{print $5,""}' | tr -d 'G\n'
 		fi
 	done
-	df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
+	#df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
 
 elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
 	echo -n " "
@@ -87,6 +87,8 @@ else
 	free=$(df -h | grep /$ | awk '{print $4}' | tr -d 'G')
 	echo -n "$free "
 
-	df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G'
+	#df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
 fi
 
+df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
+echo
