@@ -53,13 +53,8 @@ elif [ "$HOSTNAME" == "Green" ]; then
 
 elif [ "$HOSTNAME" == "leander" ]; then
 	echo -n " "
-
-	lsblk | awk '{print $7}' | while read mountpoint; do
-		if [ -n "$mountpoint" ]; then
-			#echo "$mountpoint "
-			df -hT $mountpoint 2> /dev/null | tail -n 1 | awk '{print $5,""}' | tr -d 'G\n'
-		fi
-	done
+	df -h / | tail -n 1 | awk '{print $4}' | tr -d 'G\n'
+	echo -n ' '
 	#df -hT | grep zfs | awk '{print $1,$5,""}' | tr -d 'G\n'
 
 elif [ "$(lscpu | grep Arch | awk '{print $2}' | colrm 5)" == "armv" ]; then
