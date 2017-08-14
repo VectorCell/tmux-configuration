@@ -22,7 +22,6 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 elif [ "$HOSTNAME" == "tank" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep internal$ | awk '{print $4,""}' | tr -d 'G\n'
 elif [ "$HOSTNAME" == "precisix" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
