@@ -19,6 +19,9 @@ if [ -n "$(top -b -n 1 | grep vnc)" ]; then
 fi
 
 if [ "$HOSTNAME" == "torrent-dl" ]; then
+	echo -n " "
+	sudo su bismith -c 'ssh lotus.local "~/bin/tmux-publicip" | tr -d "\n "'
+	echo -n " =? "
 	tmux-publicip | tr -d '\n'
 fi
 
