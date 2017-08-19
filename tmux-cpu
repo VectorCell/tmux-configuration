@@ -1,17 +1,16 @@
 #!/bin/bash
 
-echo -n " "
-
 # cpu temperature, there's probably a cleaner, more universal way to do this
 # at least I hope so
 if [ "$HOSTNAME" == "Yogix" ]; then
 	tempc="$(acpi -t | colrm 1 15 | colrm 5)"
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "leander" ]; then
 	temps=$(sensors | grep Core | awk '{print $3}' | tr -d '+°C' | tr '\n' ',')
 	tempc=$(python -c "print round(sum(($temps)) / 4)")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "lotus" ]; then
+	echo -n " "
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
 	core1=$(cat /sys/bus/platform/devices/coretemp.0/temp3_input)
 	python -c "print str(($core0 + $core1) / 2000.0) + \"°C\"" | tr -d '\n'
@@ -19,27 +18,27 @@ elif [ "$HOSTNAME" == "lotus" ]; then
 elif [ "$HOSTNAME" == "precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
 	tempf=$(python -c "print int(round(9 * $tempc / 5 + 32))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "Green" ]; then
 	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
 	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "tank" ]; then
 	temp=$(sensors | grep Physical | awk '{print $4}' | tr -d '+°C')
 	tempc=$(python -c "print int(round($temp))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "nissan" ]; then
 	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
 	tempc=$(python -c "print int(round($temp))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "toyota" ]; then
 	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
 	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
-	echo -n "${tempc}°C "
+	echo -n " ${tempc}°C "
 fi
 
 #mhz=$(lscpu | grep MHz | awk '{print $3}')
@@ -51,7 +50,5 @@ fi
 #	echo -n "${mhz}MHz "
 #fi
 
-exit 0
-
-loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
-echo -n "$loadavg "
+#loadavg=$(uptime | rev | awk '{print $1,$2,$3}' | rev | tr -d '\n,')
+#echo -n "$loadavg "
