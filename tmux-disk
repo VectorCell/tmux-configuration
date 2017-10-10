@@ -29,6 +29,11 @@ elif [ "$HOSTNAME" == "nissan" ]; then
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep -E "ALPHA$|BETA$" | awk '{print $4,""}' | tr -d 'G\n'
 
+elif [ "$HOSTNAME" == "toyota" ]; then
+	echo -n " "
+	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep -E "sandisk$" | awk '{print "sandisk",$4,""}' | tr -d 'G\n'
+
 elif [ "$HOSTNAME" == "precisix" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
