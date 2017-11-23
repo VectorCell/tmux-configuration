@@ -9,6 +9,10 @@ elif [ "$HOSTNAME" == "leander" ]; then
 	temps=$(sensors | grep Core | awk '{print $3}' | tr -d '+°C' | tr '\n' ',')
 	tempc=$(python -c "print round(sum(($temps)) / 4)")
 	echo -n " ${tempc}°C "
+elif [ "$HOSTNAME" == "olive" ]; then
+	temps=$(sensors | grep Core | awk '{print $3}' | tr -d '+°C' | tr '\n' ',')
+	tempc=$(python -c "print round(sum(($temps)) / 2)")
+	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "lotus" ]; then
 	echo -n " "
 	core0=$(cat /sys/bus/platform/devices/coretemp.0/temp2_input)
