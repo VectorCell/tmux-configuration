@@ -19,7 +19,7 @@ if [ -n "$(top -b -n 1 | grep vnc)" ]; then
 fi
 
 if [ "$HOSTNAME" == "torrent-dl" ] || [ "$HOSTNAME" == "downloader" ]; then
-	IPADDRLOTUS=$(sudo su bismith -c 'ssh lotus.local "~/bin/tmux-publicip" | tr -d "\n "')
+	IPADDRLOTUS=$(sudo su bismith -c 'ssh home.bismith.net "~/bin/tmux-publicip" | tr -d "\n "')
 	IPADDRTORRENTDL=$(tmux-publicip | tr -d '\n')
 	if [ "$IPADDRLOTUS" == "$IPADDRTORRENTDL" ]; then
 		echo -n " ERROR: VPN OFF "
