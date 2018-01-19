@@ -18,15 +18,15 @@ if [ -n "$(top -b -n 1 | grep vnc)" ]; then
 	echo -n "#[fg=white] VNC "
 fi
 
-if [ "$HOSTNAME" == "torrent-dl" ] || [ "$HOSTNAME" == "downloader" ]; then
-	IPADDRLOTUS=$(sudo su bismith -c 'ssh home.bismith.net "~/bin/tmux-publicip" | tr -d "\n "')
-	IPADDRTORRENTDL=$(tmux-publicip | tr -d '\n')
-	if [ "$IPADDRLOTUS" == "$IPADDRTORRENTDL" ]; then
-		echo -n " ERROR: VPN OFF "
-	else
-		echo -n " VPN ON "
-	fi
-fi
+#if [ "$HOSTNAME" == "torrent-dl" ] || [ "$HOSTNAME" == "downloader" ]; then
+#	IPADDRLOTUS=$(sudo su bismith -c 'ssh home.bismith.net "~/bin/tmux-publicip" | tr -d "\n "')
+#	IPADDRTORRENTDL=$(tmux-publicip | tr -d '\n')
+#	if [ "$IPADDRLOTUS" == "$IPADDRTORRENTDL" ]; then
+#		echo -n " ERROR: VPN OFF "
+#	else
+#		echo -n " VPN ON "
+#	fi
+#fi
 
 #if [ $HOSTNAME == Green ] || [ $HOSTNAME == Precisix ] || [ $HOSTNAME == Yogix ]; then
 #	echo -n "#[fg=colour159]$(tmux-weather)"
