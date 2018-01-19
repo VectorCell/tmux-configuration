@@ -39,6 +39,11 @@ elif [ "$HOSTNAME" == "precisix" ]; then
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep internal$ | awk '{print $4,""}' | tr -d 'G\n'
 
+elif [ "$HOSTNAME" == "downloader" ]; then
+	echo -n " "
+	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep media | awk '{print $4,""}' | tr -d 'G\n'
+
 elif [ "$HOSTNAME" == "Green" ]; then
 	echo -n " "
 
