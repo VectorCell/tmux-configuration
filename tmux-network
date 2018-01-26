@@ -9,7 +9,7 @@ if [ "$HOSTNAME" == "Precision390" ]; then
 fi
 
 for interface in $(ls /sys/class/net | grep -v -E "$exclude"); do
-	address=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}')
+	address=$(ip addr show | grep $interface | grep inet | tr '/' ' ' | awk '{print $2}' | head -n 1)
 
 	if [ -z "$address" ]; then
 		address="?"
