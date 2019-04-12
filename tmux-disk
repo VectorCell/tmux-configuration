@@ -27,7 +27,7 @@ elif [ "$HOSTNAME" == "tank" ]; then
 elif [ "$HOSTNAME" == "nissan" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep -E "ALPHA$|BETA$" | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep -E "olive$" | awk '{print $4,""}' | tr -d 'G\n'
 
 elif [ "$HOSTNAME" == "toyota" ]; then
 	echo -n " "
