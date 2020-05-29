@@ -33,6 +33,9 @@ if [ "$version" == 1 ]; then
 elif [ "$version" == 2 ]; then
 	echo "Installing configuration for tmux version 2"
 	sourcefile=tmux2.conf
+elif [ "$version" == 3 ]; then
+	echo "Installing configuration for tmux version 2"
+	sourcefile=tmux3.conf
 else
 	echo "ERROR: unknown tmux version: $(tmux -V)"
 	exit 1
