@@ -23,7 +23,7 @@ elif [ "$HOSTNAME" == "precisix" ]; then
 	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "green" ]; then
 	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
-	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
+	tempc=$(python3 -c "print(int(round(sum([$tempsc]) / 4)))")
 	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "tank" ]; then
 	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
