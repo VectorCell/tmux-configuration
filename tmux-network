@@ -2,7 +2,7 @@
 
 echo -n " "
 
-exclude="lo|docker0"
+exclude="lo|docker|vboxnet"
 if [ "$HOSTNAME" == "Precision390" ]; then
 	# for some reason this machine is convinced it has a wireless adapter
 	exclude="${exclude}|wlan0"
