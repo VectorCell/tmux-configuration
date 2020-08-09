@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# tmux-network is currently too verbose, so I'm disabling it this way
+exit 0
+
 echo -n " "
 
 exclude="lo|docker|vboxnet"
