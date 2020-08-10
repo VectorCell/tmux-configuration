@@ -84,30 +84,29 @@ elif [ "$HOSTNAME" == "toyota" ]; then
 		fi
 	fi
 
-elif [ "$HOSTNAME" == "lifebook-s" ]; then
+elif [ "$HOSTNAME" == "lbbtop" ]; then
 
-	echo -n " "
-	STATE=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep state | awk '{print $2}')
-	if [ "$STATE" == "fully-charged" ]; then
-		echo " $STATE "
-	else
-		percent=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep percentage | awk '{print $2}' | tr -d '%')
-		echo -n "${percent}% "
-		if [ "$STATE" == "discharging" ]; then
-			echo -n "↓ "
-			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep "time to empty" | awk '{print $4}')
-		elif [ "$STATE" == "charging" ]; then
-			echo -n "↑ "
-			timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep "time to full" | awk '{print $4}')
+	if [ -n "$(upower -e | grep battery)" ]; then
+		echo -n " "
+		STATE=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | awk '{print $2}')
+		if [ "$STATE" == "fully-charged" ]; then
+			echo "$STATE "
 		else
-			echo -n "STATE: $STATE "
-		fi
-		if [ -n "$timeleft" ]; then
+			percent=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | awk '{print $2}' | tr -d '%')
+			echo -n "${percent}% "
+			if [ "$STATE" == "discharging" ]; then
+				echo -n "↓ "
+				timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to empty" | awk '{print $4}')
+			elif [ "$STATE" == "charging" ]; then
+				echo -n "↑ "
+				timeleft=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep "time to full" | awk '{print $4}')
+				percent=100 # to avoid low/critial battery message
+			else
+				echo -n "STATE: $STATE "
+			fi
 			echo -n "$timeleft "
-		fi
-		rate=$(upower -i /org/freedesktop/UPower/devices/battery_CMB1 | grep energy-rate | awk '{print $2}')
-		rate=$(python -c "print round($rate, 1)")
-		if [ "$rate" != "0.0" ]; then
+			rate=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep energy-rate | awk '{print $2}')
+			rate=$(python -c "print round($rate, 1)")
 			echo -n "${rate}W "
 		fi
 	fi
