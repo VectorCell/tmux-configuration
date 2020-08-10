@@ -37,6 +37,10 @@ elif [ "$HOSTNAME" == "toyota" ]; then
 	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
 	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
 	echo -n " ${tempc}°C "
+elif [ "$HOSTNAME" == "lbbtop" ]; then
+	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
+	tempc=$(python -c "print int(round($temp))")
+	echo -n " ${tempc}°C "
 elif [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv6l" ] || [ "$(lscpu | grep Arch | awk '{print $2}')" == "armv7l" ]; then
 	# probably a raspberry pi
 	tempc=$(python -c "print str(round($(cat /sys/class/thermal/thermal_zone0/temp) / 1000.0, 1))")
