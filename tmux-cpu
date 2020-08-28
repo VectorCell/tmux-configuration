@@ -14,8 +14,8 @@ elif [ "$HOSTNAME" == "olive" ]; then
 	tempc=$(python -c "print round(sum(($temps)) / 2)")
 	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "lotus" ]; then
-	temps=$(sensors | grep Core | awk '{print $3}' | tr -d '+°C' | tr '\n' ',')
-	tempc=$(python -c "print round(sum(($temps)) / 2)")
+	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
+	tempc=$(python -c "print int(round($temp))")
 	echo -n " ${tempc}°C "
 elif [ "$HOSTNAME" == "precisix" ]; then
 	tempc="$(cat /proc/i8k | cut -d " " -f 4)"
