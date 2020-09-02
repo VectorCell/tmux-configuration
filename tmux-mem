@@ -6,10 +6,10 @@ MemTotal=$(grep MemTotal /proc/meminfo | awk '{print $2}')
 MemFree=$(grep MemFree /proc/meminfo | awk '{print $2}')
 Cached=$(grep Cached /proc/meminfo | head -n 1 | awk '{print $2}')
 Buffers=$(grep Buffers /proc/meminfo | awk '{print $2}')
-Available=$(python -c  "print $MemFree + $Cached + $Buffers")
+Available=$(expr $MemFree + $Cached + $Buffers)
 Used=$(expr $MemTotal - $Available)
 
-python -c "print str(round($Used / 1024.0 / 1024.0, 1)) + \"G \" + str(100 * $Used / $MemTotal) + '% '" | tr -d '\n'
+python3 -c "print(str(round($Used / 1024.0 / 1024.0, 1)) + \"G \" + str(round(100 * $Used / $MemTotal,1)) + '% ')" | tr -d '\n'
 
 exit 0
 
