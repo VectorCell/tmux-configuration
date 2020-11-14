@@ -3,17 +3,10 @@
 # this script needs a serious overhaul to be more generic to all systems
 # as of right now it works fine on Yogix
 
-if [ "$HOSTNAME" == "Yogix" ]; then
+if [ "$HOSTNAME" == "yogix" ]; then
 	echo -n " "
-	df -h | grep sdb1 | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep sdb2 | awk '{print $4,""}' | tr -d 'G\n'
-	count=0
-	df -h | grep "/media/$(whoami)" | while read line; do
-		echo "$line" | tr '/' ' ' | rev | awk '{print $1}' | rev | tr -d '\n'
-		echo -n "-"
-		echo "$line" | awk '{print $4}' | tr -d 'G\n'
-		echo -n " "
-	done
+	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
+
 elif [ "$HOSTNAME" == "lotus" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
@@ -104,5 +97,5 @@ else
 	#df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
 fi
 
-df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
+df -hT | grep zfs | grep -v rpool | grep -v bpool | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
 echo
