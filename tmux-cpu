@@ -37,6 +37,8 @@ elif [ "$HOSTNAME" == "toyota" ]; then
 	tempsc="$(sensors | grep '^Core' | tr -d '+°C' | awk '{print $3}' | tr '\n' ',' | rev | colrm 1 1 | rev)"
 	tempc=$(python -c "print(int(round(sum([$tempsc]) / 4)))")
 	echo -n " ${tempc}°C "
+elif [ "$HOSTNAME" == "pihole" ]; then
+	temps | grep ° | awk '{print $3}' | tr '\n' ' ' | sed 's/\.0°C/°C/g' | tr -d +
 elif [ "$HOSTNAME" == "lbbtop" ]; then
 	temp=$(sensors | grep Package | awk '{print $4}' | tr -d '+°C')
 	tempc=$(python -c "print int(round($temp))")
