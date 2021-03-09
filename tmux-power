@@ -137,7 +137,6 @@ elif [ "$HOSTNAME" == "lbbtwo" ]; then
 			echo -n "${rate}W "
 		fi
 	fi
-	
 else
 	echo ""
 	exit
