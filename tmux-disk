@@ -18,7 +18,6 @@ elif [ "$HOSTNAME" == "tank" ]; then
 elif [ "$HOSTNAME" == "nissan" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep -E "olive$" | awk '{print $4,""}' | tr -d 'G\n'
 
 elif [ "$HOSTNAME" == "toyota" ]; then
 	echo -n " "
@@ -29,7 +28,6 @@ elif [ "$HOSTNAME" == "toyota" ]; then
 elif [ "$HOSTNAME" == "precisix" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep internal$ | awk '{print $4,""}' | tr -d 'G\n'
 
 elif [ "$HOSTNAME" == "downloader" ]; then
 	echo -n " "
@@ -102,5 +100,5 @@ else
 	#df -hT | grep zfs | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
 fi
 
-df -hT | grep zfs | grep -v rpool | grep -v bpool | awk '{print $1,$5}' | tr '\n' ' ' | tr -d 'G\n'
+df -hT | grep zfs | grep -v rpool | grep -v bpool | awk '{print $1,$5}' | grep -v / | tr '\n' ' ' | tr -d 'G\n'
 echo
