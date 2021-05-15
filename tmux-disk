@@ -29,7 +29,7 @@ elif [ "$HOSTNAME" == "precisix" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 
-elif [ "$HOSTNAME" == "downloader" ]; then
+elif [ "$HOSTNAME" == "download" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
 	df -h | grep mnt | awk '{print $4,""}' | tr -d 'G\n'
