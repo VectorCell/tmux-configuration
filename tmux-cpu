@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# exempted hosts
+if [ "$HOSTNAME" == "apcups" ]; then
+	exit 0
+fi
+
 # cpu temperature, there's probably a cleaner, more universal way to do this
 # at least I hope so
 if [ "$HOSTNAME" == "yogix" ]; then
