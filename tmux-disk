@@ -37,7 +37,7 @@ elif [ "$HOSTNAME" == "download" ]; then
 elif [ "$HOSTNAME" == "dock" ] || [ "$HOSTNAME" == "gitlab" ]; then
 	echo -n " "
 	df -h | grep /$ | awk '{print $4,""}' | tr -d 'G\n'
-	df -h | grep /sites$ | awk '{print $4,""}' | tr -d 'G\n'
+	df -h | grep /data$ | awk '{print $4,""}' | tr -d 'G\n'
 
 elif [ "$HOSTNAME" == "webserver-apache" ]; then
 	echo -n " "
